@@ -21,9 +21,15 @@ def main():
 
     data = dict()
     for res in args.input:
+        data[res] = dict()
         with open(res, 'r') as f:
             c = csv.reader(f, delimiter=',')
-            data[res] = { r[0].split('-')[0]: float(r[1]) for r in c }
+            for r in c:
+                if float(r[4]) > 0.2:
+                    print("Skipping test b/c of variance: ", r[0])
+                else:
+                    name = r[0].split('-')[0]
+                    data[res][name] = float(r[1])
 
     a = data[args.input[0]]
     b = data[args.input[1]]
